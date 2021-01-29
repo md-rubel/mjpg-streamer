@@ -240,6 +240,8 @@ static int init_framebuffer(struct vdIn *vd) {
             vd->framebuffer =
                 (unsigned char *) calloc(1, (size_t) vd->width * (vd->height + 8) * 2);
             break;
+        case V4L2_PIX_FMT_H264:
+            break;
         case V4L2_PIX_FMT_RGB24:
             vd->framesizeIn = (vd->width * vd->height) * 3;
             vd->framebuffer =
@@ -362,6 +364,10 @@ static int init_v4l2(struct vdIn *vd)
 	// Fall-through intentional
       case V4L2_PIX_FMT_MJPEG:
 	fprintf(stderr, "    ... Falling back to the faster MJPG mode (consider changing cmd line options).\n");
+	vd->formatIn = vd->fmt.fmt.pix.pixelformat;
+	break;
+      case V4L2_PIX_FMT_H264:
+    fprintf(stderr, "    ... Falling back to the faster H264 mode (my custom code).\n");
 	vd->formatIn = vd->fmt.fmt.pix.pixelformat;
 	break;
       case V4L2_PIX_FMT_YUYV:
@@ -659,6 +665,7 @@ int uvcGrab(struct vdIn *vd)
             fprintf(stderr, "bytes in used %d \n", vd->buf.bytesused);
         }
         break;
+    case V4L2_PIX_FMT_H264:
     case V4L2_PIX_FMT_RGB24:
     case V4L2_PIX_FMT_RGB565:
     case V4L2_PIX_FMT_YUYV:
