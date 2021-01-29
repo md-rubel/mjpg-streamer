@@ -414,6 +414,7 @@ int input_init(input_parameter *param, int id)
             // Fall-through intentional
         case V4L2_PIX_FMT_H264:
             fmtString = "H264";
+            break;
         case V4L2_PIX_FMT_JPEG:
             fmtString = "JPEG";
             break;
@@ -452,8 +453,8 @@ int input_init(input_parameter *param, int id)
     pctx->videoIn->dv_timings = dv_timings;
     if(init_videoIn(pctx->videoIn, dev, width, height, fps, format, 1, pctx->pglobal, id, tvnorm) < 0) {
         IPRINT("init_VideoIn failed\n");
-        closelog();
-        exit(EXIT_FAILURE);
+        // closelog();
+        // exit(EXIT_FAILURE);
     }
 
     if (softfps > 0) {
